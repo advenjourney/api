@@ -8,43 +8,85 @@ import (
 	"fmt"
 	"gqlgen/graph/generated"
 	"gqlgen/graph/model"
+	"gqlgen/internal/auth"
+	"gqlgen/internal/offers"
+	"gqlgen/internal/pkg/jwt"
+	"gqlgen/internal/users"
+	"strconv"
 )
 
 func (r *mutationResolver) CreateOffer(ctx context.Context, input model.NewOffer) (*model.Offer, error) {
-	var offer model.Offer
-	var user model.User
+	user := auth.ForContext(ctx)
+	if user == nil {
+		return &model.Offer{}, fmt.Errorf("access denied")
+	}
+
+	var offer offer.Offer
 	offer.Description = input.Description
 	offer.Location = input.Location
 	offer.TitleImageURL = input.TitleImageURL
 	offer.Title = input.Title
-	user.Name = "test-user"
-	offer.User = &user
-	return &offer, nil
+	offer.User = user
+	offerID := offer.Save()
+	grahpqlUser := &model.User{
+		ID:   user.ID,
+		Name: user.Username,
+	}
+	return &model.Offer{ID: strconv.FormatInt(offerID, 10), Title: offer.Title, Location: offer.Location, Description: offer.Description, TitleImageURL: offer.TitleImageURL, User: grahpqlUser}, nil
 }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (string, error) {
-	panic(fmt.Errorf("not implemented"))
+	var user users.User
+	user.Username = input.Username
+	user.Password = input.Password
+	user.Create()
+	token, err := jwt.GenerateToken(user.Username)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
 }
 
 func (r *mutationResolver) Login(ctx context.Context, input model.Login) (string, error) {
-	panic(fmt.Errorf("not implemented"))
+	var user users.User
+	user.Username = input.Username
+	user.Password = input.Password
+	correct := user.Authenticate()
+	if !correct {
+		// 1
+		return "", &users.WrongUsernameOrPasswordError{}
+	}
+	token, err := jwt.GenerateToken(user.Username)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
 }
 
 func (r *mutationResolver) RefreshToken(ctx context.Context, input model.RefreshTokenInput) (string, error) {
-	panic(fmt.Errorf("not implemented"))
+	username, err := jwt.ParseToken(input.Token)
+	if err != nil {
+		return "", fmt.Errorf("access denied")
+	}
+	token, err := jwt.GenerateToken(username)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
 }
 
 func (r *queryResolver) Offers(ctx context.Context) ([]*model.Offer, error) {
-	var offers []*model.Offer
-	dummyOffer := model.Offer{
-		Title:         "Coworking in Thalasso Villa del Conde",
-		Location:      "Gran Canaria",
-		Description:   "Between the ocean and the pool of the fantastic Lopesan Villa del Conde Resort in Meloneras, south Gran Canaria, is the hotel’s spectacular spa. With a refined, linear design and ultramodern interiors the Corallium Thalasso Villa del Conde offers fantasy experiences in its Ocean View Suites. These private suites offer a solarium and seawater pools and are the perfect setting for an Oceanic Paradise experience; an hour-long jacuzzi with spectacular sea views and French Moët & Chandon champagne.",
-		TitleImageURL: "https://www.hellocanaryislands.com/sites/default/files/resource/thalasso_spa_coralium-gran_canaria_0.jpg",
-		User:          &model.User{Name: "admin"},
+	var resultOffers []*model.Offer
+	var dbOffers []offers.Offer
+	dbOffers = offers.GetAll()
+	for _, offer := range dbOffers {
+		grahpqlUser := &model.User{
+			ID:   link.User.ID,
+			Name: link.User.Username,
+		}
+		resultOffers = append(resultOffers, &model.Offer{ID: offer.ID, Title: offer.Title, Location: offer.Location, Description: offer.Description, TitleImageURL: offer.TitleImageURL})
 	}
-	offers = append(offers, &dummyOffer)
-	return offers, nil
+	return resultOffers, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.
