@@ -1,4 +1,4 @@
-module gqlgen
+module github.com/advenjourney/api
 
 go 1.15
 
