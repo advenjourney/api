@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"gqlgen/graph/model"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -15,6 +14,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/introspection"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
+
+	"github.com/advenjourney/api/graph/model"
 )
 
 // region    ************************** generated!.gotpl **************************
