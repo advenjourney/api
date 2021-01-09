@@ -7,7 +7,6 @@ RUN make clean && make build
 # final stage
 FROM alpine:3.9
 RUN apk add --no-cache ca-certificates
-
-WORKDIR /app
-COPY --from=builder /src/bin/api /app/
-ENTRYPOINT ["./api"]
+WORKDIR app
+COPY --from=builder /src/bin/api /app/api
+ENTRYPOINT ["/app/api"]
