@@ -1,3 +1,5 @@
 # Output of the go coverage tool
 *.out
 
+bin
+dist
