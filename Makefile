@@ -4,6 +4,7 @@ IMPORT := github.com/advenjourney/$(NAME)
 BIN := bin
 DIST := dist
 GO := go
+CONTAINER_PREFIX := advenjourney
 
 ifeq ($(OS), Windows_NT)
 	EXECUTABLE := $(NAME).exe
@@ -94,3 +95,11 @@ release-build:
 .PHONY: release-checksums
 release-checksums:
 	cd $(DIST); $(foreach file, $(wildcard $(DIST)/$(EXECUTABLE)-*), sha256sum $(notdir $(file)) > $(notdir $(file)).sha256;)
+
+.PHONY: container
+container:
+	docker build -t $(CONTAINER_PREFIX)/$(NAME):$(VERSION) -f ./cmd/$(NAME)/Dockerfile .
+
+.PHONE: container-push
+container-push: container
+	docker push $(CONTAINER_PREFIX)/$(NAME):$(VERSION)

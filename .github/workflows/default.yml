@@ -1,4 +1,4 @@
-name: lint
+name: default
 on:
   push:
     branches:
@@ -21,3 +21,6 @@ jobs:
           version: v1.35
       - name: build
         run: make build
+      - name: container
+        run: make container
+
