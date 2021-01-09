@@ -81,10 +81,10 @@ func (r *queryResolver) Offers(ctx context.Context) ([]*model.Offer, error) {
 	var dbOffers []offers.Offer
 	dbOffers = offers.GetAll()
 	for _, offer := range dbOffers {
-		grahpqlUser := &model.User{
-			ID:   link.User.ID,
-			Name: link.User.Username,
-		}
+		//grahpqlUser := &model.User{
+		//	ID:   link.User.ID,
+		//	Name: link.User.Username,
+		//}
 		resultOffers = append(resultOffers, &model.Offer{ID: offer.ID, Title: offer.Title, Location: offer.Location, Description: offer.Description, TitleImageURL: offer.TitleImageURL})
 	}
 	return resultOffers, nil

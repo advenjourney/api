@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/advenjourney/api/graph"
-	"github.com/advenjourney/api/graph/generated"
+	api "github.com/advenjourney/api/graph/generated"
 	"github.com/advenjourney/api/internal/auth"
 	_ "github.com/advenjourney/api/internal/auth"
 	database "github.com/advenjourney/api/internal/pkg/db/mysql"
@@ -29,8 +29,8 @@ func main() {
 
 	database.InitDB()
 	database.Migrate()
-	server := handler.GraphQL(api.NewExecutableSchema(api.Config{Resolvers: &api.Resolver{}}))
-	router.Handle("/", handler.Playground("GraphQL playground", "/query"))
+	server := handler.NewDefaultServer(api.NewExecutableSchema(api.Config{Resolvers: &graph.Resolver{}}))
+	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	router.Handle("/query", server)
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)

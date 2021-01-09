@@ -1,11 +1,15 @@
 package users
 
 import (
-	"database/sql"
-	"github.com/advenjourney/api/internal/pkg/db/mysql"
-	"golang.org/x/crypto/bcrypt"
+
 
 	"log"
+	"database/sql"
+
+	"golang.org/x/crypto/bcrypt"
+
+	database "github.com/advenjourney/api/internal/pkg/db/mysql"
+
 )
 
 type User struct {
