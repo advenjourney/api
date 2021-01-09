@@ -42,13 +42,15 @@ func (offer Offer) Save() int64 {
 func GetAll() []Offer {
 	stmt, err := database.DB.Prepare("select O.id, O.title, O.location, O.description, O.titleimageurl, O.UserID, O.Username from Offer O inner join Users U on O.UserID = U.ID")
 	if err != nil {
-		log.Fatal(err)
+		// TODO: handle this more gracefully
+		log.Panic(err)
 	}
 	defer stmt.Close()
 
 	rows, err := stmt.Query()
 	if err != nil {
-		log.Fatal(err)
+		// TODO: handle this more gracefully
+		log.Panic(err)
 	}
 	defer rows.Close()
 
@@ -58,7 +60,8 @@ func GetAll() []Offer {
 		var offer Offer
 		err := rows.Scan(&offer.ID, &offer.Title, &offer.Location, &offer.Description, &offer.TitleImageURL, &id, &username)
 		if err != nil {
-			log.Fatal(err)
+			// TODO: should not panic here yet
+			log.Panic(err)
 		}
 		// link.User = &users.User{
 		//	ID:       id,
@@ -67,7 +70,8 @@ func GetAll() []Offer {
 		offers = append(offers, offer)
 	}
 	if err = rows.Err(); err != nil {
-		log.Fatal(err)
+		// TODO: needs proper error handling // logging to not exit on fatal error
+		log.Panic(err)
 	}
 
 	return offers
