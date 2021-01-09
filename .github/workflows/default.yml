@@ -38,4 +38,4 @@ jobs:
 
       - name: push to dockerhub
         if: ${{ env.PUSH_PACKAGES }}
-        run: make push
+        run: make container-push
