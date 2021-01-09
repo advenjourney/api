@@ -3,7 +3,7 @@ NAME := api
 IMPORT := github.com/advenjourney/$(NAME)
 BIN := bin
 DIST := dist
-GO := go
+GO := CGO_ENABLED=0 go
 CONTAINER_PREFIX := advenjourney
 
 ifeq ($(OS), Windows_NT)
