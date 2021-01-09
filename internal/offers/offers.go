@@ -20,7 +20,7 @@ type Offer struct {
 //#2
 func (offer Offer) Save() int64 {
 	//#3
-	stmt, err := database.Db.Prepare("INSERT INTO Offers(Title,Location,Description,TitleImageURL, UserID) VALUES(?,?,?,?,?)")
+	stmt, err := database.DB.Prepare("INSERT INTO Offers(Title,Location,Description,TitleImageURL, UserID) VALUES(?,?,?,?,?)")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,16 +35,17 @@ func (offer Offer) Save() int64 {
 		log.Fatal("Error:", err.Error())
 	}
 	log.Print("Row inserted!")
+
 	return id
 }
 
 func GetAll() []Offer {
-	stmt, err := database.Db.Prepare("select O.id, O.title, O.location, O.description, O.titleimageurl, O.UserID, O.Username from Offer O inner join Users U on O.UserID = U.ID")
-
+	stmt, err := database.DB.Prepare("select O.id, O.title, O.location, O.description, O.titleimageurl, O.UserID, O.Username from Offer O inner join Users U on O.UserID = U.ID")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer stmt.Close()
+
 	rows, err := stmt.Query()
 	if err != nil {
 		log.Fatal(err)
@@ -59,14 +60,15 @@ func GetAll() []Offer {
 		if err != nil {
 			log.Fatal(err)
 		}
-		//link.User = &users.User{
+		// link.User = &users.User{
 		//	ID:       id,
 		//	Username: username,
-		//} // changed
+		// } // changed
 		offers = append(offers, offer)
 	}
 	if err = rows.Err(); err != nil {
 		log.Fatal(err)
 	}
+
 	return offers
 }

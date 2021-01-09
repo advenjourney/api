@@ -4,13 +4,16 @@ import (
 	"database/sql"
 	"log"
 
+	// initialize mysql driver
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang-migrate/migrate"
 	"github.com/golang-migrate/migrate/database/mysql"
+
+	// initialize migrate file
 	_ "github.com/golang-migrate/migrate/source/file"
 )
 
-var Db *sql.DB
+var DB *sql.DB
 
 func InitDB() {
 	db, err := sql.Open("mysql", "root:dbpass@tcp(localhost)/advenjourney")
@@ -21,14 +24,14 @@ func InitDB() {
 	if err = db.Ping(); err != nil {
 		log.Panic(err)
 	}
-	Db = db
+	DB = db
 }
 
 func Migrate() {
-	if err := Db.Ping(); err != nil {
+	if err := DB.Ping(); err != nil {
 		log.Fatal(err)
 	}
-	driver, _ := mysql.WithInstance(Db, &mysql.Config{})
+	driver, _ := mysql.WithInstance(DB, &mysql.Config{})
 	m, _ := migrate.NewWithDatabaseInstance(
 		"file://internal/pkg/db/migrations/mysql",
 		"mysql",
@@ -37,5 +40,4 @@ func Migrate() {
 	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
 		log.Fatal(err)
 	}
-
 }
