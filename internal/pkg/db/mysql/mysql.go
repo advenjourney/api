@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"log"
 
+	"github.com/advenjourney/api/pkg/config"
+
 	// initialize mysql driver
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang-migrate/migrate"
@@ -15,8 +17,9 @@ import (
 
 var DB *sql.DB
 
-func InitDB() {
-	db, err := sql.Open("mysql", "root:dbpass@tcp(localhost)/advenjourney")
+func InitDB(config config.Config) {
+	log.Println(config.Database.DSN)
+	db, err := sql.Open("mysql", config.Database.DSN)
 	if err != nil {
 		log.Panic(err)
 	}
