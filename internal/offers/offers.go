@@ -40,7 +40,7 @@ func (offer Offer) Save() int64 {
 }
 
 func GetAll() []Offer {
-	stmt, err := database.Db.Prepare("select O.id, O.title, O.location, O.description, O.titleimageurl, O.UserID, U.Username from Offers O inner join Users U on O.UserID = U.ID")
+	stmt, err := database.DB.Prepare("select O.id, O.title, O.location, O.description, O.titleimageurl, O.UserID, U.Username from Offers O inner join Users U on O.UserID = U.ID")
 
 	if err != nil {
 		// TODO: handle this more gracefully
