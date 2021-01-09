@@ -2,6 +2,7 @@ package offers
 
 import (
 	"log"
+
 	database "github.com/advenjourney/api/internal/pkg/db/mysql"
 	"github.com/advenjourney/api/internal/users"
 )
@@ -49,17 +50,19 @@ func GetAll() []Offer {
 		log.Fatal(err)
 	}
 	defer rows.Close()
+
 	var offers []Offer
+	var id, username string
 	for rows.Next() {
 		var offer Offer
 		err := rows.Scan(&offer.ID, &offer.Title, &offer.Location, &offer.Description, &offer.TitleImageURL, &id, &username)
 		if err != nil {
 			log.Fatal(err)
 		}
-		link.User = &users.User{
-			ID:       id,
-			Username: username,
-		} // changed
+		//link.User = &users.User{
+		//	ID:       id,
+		//	Username: username,
+		//} // changed
 		offers = append(offers, offer)
 	}
 	if err = rows.Err(); err != nil {

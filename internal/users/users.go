@@ -1,11 +1,15 @@
 package users
 
 import (
-	"database/sql"
-	"github.com/advenjourney/api/internal/pkg/db/mysql"
-	"golang.org/x/crypto/bcrypt"
+
 
 	"log"
+	"database/sql"
+
+	"golang.org/x/crypto/bcrypt"
+
+	database "github.com/advenjourney/api/internal/pkg/db/mysql"
+
 )
 
 type User struct {
@@ -79,8 +83,3 @@ func (user *User) Authenticate() bool {
 	return CheckPasswordHash(user.Password, hashedPassword)
 }
 
-//CheckPassword hash compares raw password with it's hashed values
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
-}
