@@ -35,7 +35,7 @@ Implement the migration logic in the generated files in `internal/pkg/db/migrati
 Then run the migration command to apply the migration and change the database schema
 
 ```bash
-$   migrate -database mysql://root:dbpass@/advenjouirney -path internal/pkg/db/migrations/mysql up
+$   migrate -database mysql://root:dbpass@/advenjourney -path internal/pkg/db/migrations/mysql up
 
 ```
 
@@ -107,7 +107,7 @@ Results in
 Send query
 ```
 mutation {
-  createLink(input: {title: "Coliving Request", location: "Gran Canaria", description: "Villa at the beach", titleimageurl: "https://image.adress.com"}){
+  createOffer(input: {title: "Coliving Request", location: "Gran Canaria", description: "Villa at the beach", titleimageurl: "https://image.adress.com"}){
     user{
       name
     }
@@ -136,4 +136,13 @@ To create offer you must set the Authorization header
   "Authorization": "" // use your own generated token
 }
 ```
-Try again you should be able to create a new offer
+If authorized, createOffer kills the server process
+```
+➜ go run server.go
+2021/01/09 17:39:12 api 0.0.0 () ((go=go1.15.6, date=))
+2021/01/09 17:39:12 connect to http://localhost:8080/ for GraphQL playground
+2021/01/09 17:40:26 sql: expected 5 arguments, got 4
+exit status 1
+```
+1. We need to figure out how to pass the user argument to the createOffer mutataion
+2. Add Exceptions for malformated queries to harden the server
