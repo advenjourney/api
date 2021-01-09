@@ -79,8 +79,3 @@ func (user *User) Authenticate() bool {
 	return CheckPasswordHash(user.Password, hashedPassword)
 }
 
-//CheckPassword hash compares raw password with it's hashed values
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
-}
