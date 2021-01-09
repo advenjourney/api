@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/advenjourney/api/pkg/version"
 	"log"
 	"net/http"
 	"os"
@@ -33,6 +34,7 @@ func main() {
 	router.Handle("/", handler.Playground("GraphQL playground", "/query"))
 	router.Handle("/query", server)
 
+	log.Printf("api %s (%s)", version.Info(), version.BuildContext())
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 
