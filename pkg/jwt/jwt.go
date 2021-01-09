@@ -23,8 +23,10 @@ func GenerateToken(username string) (string, error) {
 	tokenString, err := token.SignedString(SecretKey)
 	if err != nil {
 		log.Fatal("Error in Generating key")
+
 		return "", err
 	}
+
 	return tokenString, nil
 }
 
@@ -35,8 +37,9 @@ func ParseToken(tokenStr string) (string, error) {
 	})
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		username := claims["username"].(string)
+
 		return username, nil
-	} else {
-		return "", err
 	}
+
+	return "", err
 }

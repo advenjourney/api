@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/advenjourney/api/pkg/version"
 	"log"
 	"net/http"
 	"os"
@@ -9,8 +8,8 @@ import (
 	"github.com/advenjourney/api/graph"
 	api "github.com/advenjourney/api/graph/generated"
 	"github.com/advenjourney/api/internal/auth"
-	_ "github.com/advenjourney/api/internal/auth"
 	database "github.com/advenjourney/api/internal/pkg/db/mysql"
+	"github.com/advenjourney/api/pkg/version"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -37,5 +36,4 @@ func main() {
 	log.Printf("api %s (%s)", version.Info(), version.BuildContext())
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
-
 }
