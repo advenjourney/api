@@ -39,7 +39,7 @@ func (offer Offer) Save() int64 {
 }
 
 func GetAll() []Offer {
-	stmt, err := database.Db.Prepare("select O.id, O.title, O.location, O.description, O.titleimageurl, O.UserID, O.Username from Offer O inner join Users U on O.UserID = U.ID")
+	stmt, err := database.Db.Prepare("select O.id, O.title, O.location, O.description, O.titleimageurl, O.UserID, U.Username from Offers O inner join Users U on O.UserID = U.ID")
 
 	if err != nil {
 		log.Fatal(err)
@@ -59,10 +59,10 @@ func GetAll() []Offer {
 		if err != nil {
 			log.Fatal(err)
 		}
-		//link.User = &users.User{
-		//	ID:       id,
-		//	Username: username,
-		//} // changed
+		offer.User = &users.User{
+			ID:       id,
+			Username: username,
+		}
 		offers = append(offers, offer)
 	}
 	if err = rows.Err(); err != nil {
