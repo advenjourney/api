@@ -130,25 +130,10 @@ Results in
 }
 ```
 
-To create offr you must set the Authorization header
+To create offer you must set the Authorization header
 ```
 {
   "Authorization": "" // use your own generated token
 }
 ```
 Try again you should be able to create a new offer
-
-
-### Known Issues
-
-```bash
-$ go run server.go
-graph/schema.resolvers.go:9:2: package gqlgen/graph/generated is not in GOROOT (/usr/local/opt/go/libexec/src/gqlgen/graph/generated)
-graph/schema.resolvers.go:10:2: package gqlgen/graph/model is not in GOROOT (/usr/local/opt/go/libexec/src/gqlgen/graph/model)
-graph/schema.resolvers.go:11:2: package gqlgen/internal/auth is not in GOROOT (/usr/local/opt/go/libexec/src/gqlgen/internal/auth)
-graph/schema.resolvers.go:12:2: package gqlgen/internal/offers is not in GOROOT (/usr/local/opt/go/libexec/src/gqlgen/internal/offers)
-graph/schema.resolvers.go:13:2: package gqlgen/internal/pkg/jwt is not in GOROOT (/usr/local/opt/go/libexec/src/gqlgen/internal/pkg/jwt)
-graph/schema.resolvers.go:14:2: package gqlgen/internal/users is not in GOROOT (/usr/local/opt/go/libexec/src/gqlgen/internal/users)
-```
-
-Help needed to solve this dependency issues that i do not understand yet

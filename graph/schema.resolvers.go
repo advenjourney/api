@@ -6,13 +6,14 @@ package graph
 import (
 	"context"
 	"fmt"
-	"gqlgen/graph/generated"
-	"gqlgen/graph/model"
-	"gqlgen/internal/auth"
-	"gqlgen/internal/offers"
-	"gqlgen/internal/pkg/jwt"
-	"gqlgen/internal/users"
 	"strconv"
+
+	"github.com/advenjourney/api/graph/generated"
+	"github.com/advenjourney/api/graph/model"
+	"github.com/advenjourney/api/internal/auth"
+	"github.com/advenjourney/api/internal/offers"
+	"github.com/advenjourney/api/internal/users"
+	"github.com/advenjourney/api/pkg/jwt"
 )
 
 func (r *mutationResolver) CreateOffer(ctx context.Context, input model.NewOffer) (*model.Offer, error) {
@@ -21,7 +22,7 @@ func (r *mutationResolver) CreateOffer(ctx context.Context, input model.NewOffer
 		return &model.Offer{}, fmt.Errorf("access denied")
 	}
 
-	var offer offer.Offer
+	var offer offers.Offer
 	offer.Description = input.Description
 	offer.Location = input.Location
 	offer.TitleImageURL = input.TitleImageURL
