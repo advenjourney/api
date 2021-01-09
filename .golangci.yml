@@ -72,4 +72,4 @@ linters:
 
 issues:
   exclude:
-    - Using the variable on range scope `testCase` in function literal
+    - "exitAfterDefer: log.Fatal clutters"

@@ -23,22 +23,25 @@ func Middleware() func(http.Handler) http.Handler {
 			// Allow unauthenticated users in
 			if header == "" {
 				next.ServeHTTP(w, r)
+
 				return
 			}
 
-			//validate jwt token
+			// validate jwt token
 			tokenStr := header
 			username, err := jwt.ParseToken(tokenStr)
 			if err != nil {
 				http.Error(w, "Invalid token", http.StatusForbidden)
+
 				return
 			}
 
 			// create user and check if user exists in db
 			user := users.User{Username: username}
-			id, err := users.GetUserIdByUsername(username)
+			id, err := users.GetUserIDByUsername(username)
 			if err != nil {
 				next.ServeHTTP(w, r)
+
 				return
 			}
 			user.ID = strconv.Itoa(id)
@@ -55,5 +58,6 @@ func Middleware() func(http.Handler) http.Handler {
 // ForContext finds the user from the context. REQUIRES Middleware to have run.
 func ForContext(ctx context.Context) *users.User {
 	raw, _ := ctx.Value(userCtxKey).(*users.User)
+
 	return raw
 }

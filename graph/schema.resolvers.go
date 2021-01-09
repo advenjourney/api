@@ -33,6 +33,7 @@ func (r *mutationResolver) CreateOffer(ctx context.Context, input model.NewOffer
 		ID:   user.ID,
 		Name: user.Username,
 	}
+
 	return &model.Offer{ID: strconv.FormatInt(offerID, 10), Title: offer.Title, Location: offer.Location, Description: offer.Description, TitleImageURL: offer.TitleImageURL, User: grahpqlUser}, nil
 }
 
@@ -45,6 +46,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	if err != nil {
 		return "", err
 	}
+
 	return token, nil
 }
 
@@ -61,6 +63,7 @@ func (r *mutationResolver) Login(ctx context.Context, input model.Login) (string
 	if err != nil {
 		return "", err
 	}
+
 	return token, nil
 }
 
@@ -73,20 +76,21 @@ func (r *mutationResolver) RefreshToken(ctx context.Context, input model.Refresh
 	if err != nil {
 		return "", err
 	}
+
 	return token, nil
 }
 
 func (r *queryResolver) Offers(ctx context.Context) ([]*model.Offer, error) {
 	var resultOffers []*model.Offer
-	var dbOffers []offers.Offer
-	dbOffers = offers.GetAll()
+	dbOffers := offers.GetAll()
 	for _, offer := range dbOffers {
-		//grahpqlUser := &model.User{
-		//	ID:   link.User.ID,
-		//	Name: link.User.Username,
-		//}
+		// grahpqlUser := &model.User{
+		//	 ID:   link.User.ID,
+		//	 Name: link.User.Username,
+		// }
 		resultOffers = append(resultOffers, &model.Offer{ID: offer.ID, Title: offer.Title, Location: offer.Location, Description: offer.Description, TitleImageURL: offer.TitleImageURL})
 	}
+
 	return resultOffers, nil
 }
 
