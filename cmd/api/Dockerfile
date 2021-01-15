@@ -5,7 +5,7 @@ WORKDIR /src
 RUN make clean && make build
 
 # final stage
-FROM alpine:3.12
+FROM alpine:3.13
 RUN apk add --no-cache ca-certificates
 WORKDIR app
 COPY --from=builder /src/bin/api /app/api
