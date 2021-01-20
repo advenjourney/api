@@ -1,5 +1,5 @@
 # build stage
-FROM golang:1.15.6 AS builder
+FROM golang:1.15.7 AS builder
 COPY . /src
 WORKDIR /src
 RUN make clean && make build
