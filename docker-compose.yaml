@@ -1,0 +1,23 @@
+version: '3.8'
+
+
+services:
+  api:
+    image: advenjourney/api
+    build:
+      context: .
+      dockerfile: ./cmd/api/Dockerfile
+    restart: always
+    environment:
+      API_SERVER_ADDR: ':8080'
+      API_DB_DSN: 'root:dbpass@tcp(mysql)/advenjourney'
+    ports:
+      - 8080:8080
+
+  mysql:
+    image: mysql:8.0.23
+    environment:
+      MYSQL_ROOT_PASSWORD: dbpass
+      MYSQL_DATABASE: advenjourney
+    ports:
+      - 3306:3306
