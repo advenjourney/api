@@ -31,12 +31,14 @@ func InitDB(config config.Config) {
 }
 
 func Migrate() {
+	log.Println("debug1")
 	if err := DB.Ping(); err != nil {
 		log.Fatal(err)
 	}
+	log.Println("debug2")
 	driver, _ := mysql.WithInstance(DB, &mysql.Config{})
 	m, _ := migrate.NewWithDatabaseInstance(
-		"file://internal/pkg/db/migrations/mysql",
+		"file://db/mysql/migrations",
 		"mysql",
 		driver,
 	)
