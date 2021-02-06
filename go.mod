@@ -15,7 +15,7 @@ require (
 	github.com/go-chi/chi v3.3.4+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gogo/protobuf v1.3.1 // indirect
-	github.com/golang-migrate/migrate v3.5.4+incompatible
+	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/google/go-cmp v0.5.1 // indirect
