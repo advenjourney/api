@@ -13,7 +13,7 @@ $ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=dbpass -e MYSQL_DA
 ```bash
 $ git clone https://github.com/advenjourney/api
 $ cd api
-$ go run server.go
+$ go run cmd/api/api.go 
 ```
 
 ### Extend the model
